@@ -1,0 +1,2 @@
+# Thesaurus
+A simple thesaurus
