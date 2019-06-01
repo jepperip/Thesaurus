@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using NLog.Fluent;
 
 namespace Thesaurus.Private
 {
@@ -54,7 +55,10 @@ namespace Thesaurus.Private
 		/// <summary>
 		/// Gets the synonyms for a word
 		/// </summary>
-		/// <param name="word"></param>
+		/// <returns>
+		/// A list of synonyms for the given word, or an empty list
+		/// if the given word is not present in the thesaurus
+		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// Input value is null
 		/// </exception>
@@ -70,9 +74,14 @@ namespace Thesaurus.Private
 			// gets added before we return the result.
 			lock (dictionaryLock)
 			{
-				return synonymDictionary.ContainsKey(word) ?
-					synonymDictionary[word] :
-					Enumerable.Empty<string>();
+				if (synonymDictionary.ContainsKey(word))
+				{
+					return synonymDictionary[word];
+				}
+
+				log.Warn(
+					"Requested synonyms for word that is not present in the thesaurus; '{0}'", word);
+				return Enumerable.Empty<string>();
 			}
 		}
 

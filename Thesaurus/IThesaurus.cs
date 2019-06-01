@@ -25,7 +25,10 @@ namespace Thesaurus
 		/// <summary>
 		/// Gets the synonyms for a word
 		/// </summary>
-		/// <param name="word"></param>
+		/// <returns>
+		/// A list of synonyms for the given word, or an empty list
+		/// if the given word is not present in the thesaurus
+		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// Input value is null
 		/// </exception>
